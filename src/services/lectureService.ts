@@ -15,11 +15,11 @@ export const getLectures = async (courseId: string) => {
 }
 
 export const createLecture = async (
-    courseId: string,
+    moduleId: string,
     lectureTitle: string
 ) => {
     return ApiService.fetchDataWithAxios({
-        url: `/course/lecture/${courseId}`,
+        url: `/course/lecture/${moduleId}`,
         method: 'post',
         data: { lectureTitle },
     })
