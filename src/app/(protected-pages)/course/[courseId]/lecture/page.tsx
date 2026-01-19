@@ -37,7 +37,7 @@ export default function CourseLecturePage() {
             setCourseTitle(res.course.title)
 
             const firstPlayable = res.lectures.find(
-                (l) => l.isPreviewFree || res.hasPurchased,
+                (l) => l.isFree || res.hasPurchased,
             )
             setCurrentLecture(firstPlayable || null)
         } catch {
@@ -84,7 +84,7 @@ export default function CourseLecturePage() {
                         hasPurchased={hasPurchased}
                         currentLectureId={currentLecture?._id}
                         onSelect={(lec) => {
-                            if (!lec.isPreviewFree && !hasPurchased) {
+                            if (!lec.isFree && !hasPurchased) {
                                 toast.push(
                                     <Notification type="warning" title="Locked">
                                         Purchase course to unlock

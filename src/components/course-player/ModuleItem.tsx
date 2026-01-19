@@ -16,7 +16,7 @@ export default function ModuleItem({
                 onClick={() => setOpen(!open)}
                 className="w-full flex justify-between items-center px-3 py-2 text-sm font-medium"
             >
-                {module.title}
+                {module?.title}
                 <span>{open ? '−' : '+'}</span>
             </button>
 

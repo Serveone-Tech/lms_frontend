@@ -21,7 +21,7 @@ export default function LectureItem({
             onClick={onClick}
             className={classNames(
                 'w-full text-left px-3 py-2 rounded-lg flex justify-between items-center',
-                active && 'bg-[#F4E9EE]',
+                active && 'bg-[#E6F3F4]',
                 locked && 'opacity-60 cursor-not-allowed',
             )}
         >

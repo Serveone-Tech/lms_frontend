@@ -77,11 +77,11 @@ export default function AdminCoursesPage() {
                         className="
         inline-flex items-center gap-2
         rounded-xl
-        bg-[#F4E9EE]
-        border border-[#E6C9D5]
+        bg-[#E6F3F4]
+        border border-[#8CC6CB]
         px-6 py-2.5
-        text-[#7A3E55] font-medium
-        hover:bg-[#EAD6DE]
+        text-[#006c74] font-medium
+        hover:bg-[#00555C]
         hover:shadow-sm
         transition-all
     "
@@ -137,10 +137,10 @@ export default function AdminCoursesPage() {
                                     <button
                                         className="
             flex-1 rounded-lg px-4 py-2 text-sm
-            bg-[#F4E9EE]
-            border border-[#E6C9D5]
-            text-[#7A3E55]
-            hover:bg-[#EAD6DE]
+            bg-[#E6F3F4]
+            border border-[#8CC6CB]
+            text-[#006c74]
+            hover:bg-[#00555C]
         "
                                         onClick={() =>
                                             router.push(
@@ -175,7 +175,7 @@ export default function AdminCoursesPage() {
         ${
             course.isPublished
                 ? 'border-red-300 text-red-500 hover:bg-red-50'
-                : 'border-[#E6C9D5] text-[#7A3E55] bg-[#F4E9EE] hover:bg-[#EAD6DE]'
+                : 'border-[#8CC6CB] text-[#006c74] bg-[#E6F3F4] hover:bg-[#00555C]'
         }
     `}
                                     >

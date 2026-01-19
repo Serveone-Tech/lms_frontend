@@ -50,8 +50,8 @@ export default function CategoryTabs({ value, onChange }: Props) {
                             border transition-all
                             ${
                                 isActive
-                                    ? 'bg-[#7A3E55] text-white border-[#7A3E55]'
-                                    : 'border-[#E6C9D5] text-[#7A3E55] bg-[#F4E9EE] hover:bg-[#EAD6DE]'
+                                    ? 'bg-[#006c74] text-white border-[#006c74]'
+                                    : 'border-[#8CC6CB] text-[#006c74] bg-[#E6F3F4] hover:bg-[#00555C]'
                             }
                         `}
                     >

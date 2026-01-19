@@ -6,8 +6,8 @@ export default function PromoBanners() {
             className="
                 w-full
                 rounded-2xl
-                border border-[#E6C9D5]
-                bg-[#F4E9EE]
+                border border-[#8CC6CB]
+                bg-[#E6F3F4]
                 px-6 py-5
                 flex flex-col md:flex-row
                 items-start md:items-center
@@ -17,10 +17,10 @@ export default function PromoBanners() {
         >
             {/* Left content */}
             <div>
-                <h2 className="text-lg font-semibold text-[#7A3E55]">
+                <h2 className="text-lg font-semibold text-[#006c74]">
                     🎉 Special Offer for You
                 </h2>
-                <p className="text-sm text-[#7A3E55]/80 mt-1">
+                <p className="text-sm text-[#006c74]/80 mt-1">
                     Apply coupon <span className="font-medium">WELCOME10</span>{' '}
                     and get instant discount on your first course
                 </p>
@@ -32,8 +32,8 @@ export default function PromoBanners() {
                     className="
                         px-4 py-2
                         rounded-lg
-                        border border-[#7A3E55]
-                        text-[#7A3E55]
+                        border border-[#006c74]
+                        text-[#006c74]
                         text-sm font-medium
                         bg-white
                     "
@@ -46,7 +46,7 @@ export default function PromoBanners() {
                         rounded-lg
                         px-5 py-2
                         text-sm font-medium
-                        bg-[#7A3E55]
+                        bg-[#006c74]
                         text-white
                         hover:opacity-90
                         transition

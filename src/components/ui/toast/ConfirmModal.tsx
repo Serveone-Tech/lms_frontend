@@ -49,10 +49,10 @@ export default function ConfirmModal({
                         onClick={onConfirm}
                         className="
                             px-5 py-2 rounded-lg text-sm font-medium
-                            bg-[#F4E9EE]
-                            border border-[#E6C9D5]
-                            text-[#7A3E55]
-                            hover:bg-[#EAD6DE]
+                            bg-[#E6F3F4]
+                            border border-[#8CC6CB]
+                            text-[#006c74]
+                            hover:bg-[#00555C]
                         "
                     >
                         {confirmText}
