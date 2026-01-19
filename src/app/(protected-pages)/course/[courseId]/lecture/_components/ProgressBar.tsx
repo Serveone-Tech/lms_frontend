@@ -3,7 +3,7 @@ export default function ProgressBar({ value }: { value: number }) {
         <div className="mt-2">
             <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
                 <div
-                    className="h-full bg-[#7A3E55]"
+                    className="h-full bg-[#006c74]"
                     style={{ width: `${value}%` }}
                 />
             </div>

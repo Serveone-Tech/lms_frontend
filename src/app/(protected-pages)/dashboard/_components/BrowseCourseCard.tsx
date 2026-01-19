@@ -19,7 +19,7 @@ export default function BrowseCourseCard({ course }: Props) {
         <div
             className="
                 bg-white
-                border border-[#E6C9D5]
+                border border-[#8CC6CB]
                 rounded-2xl
                 p-5
                 hover:shadow-md
@@ -32,12 +32,12 @@ export default function BrowseCourseCard({ course }: Props) {
                 className="
                     w-10 h-10
                     rounded-xl
-                    bg-[#F4E9EE]
+                    bg-[#E6F3F4]
                     flex items-center justify-center
                     mb-4
                 "
             >
-                <span className="text-[#7A3E55] font-semibold">
+                <span className="text-[#006c74] font-semibold">
                     📘
                 </span>
             </div>
@@ -69,7 +69,7 @@ export default function BrowseCourseCard({ course }: Props) {
                         text-sm font-medium
                         border border-[#B833EA]
                         text-[#B833EA]
-                        hover:bg-[#F4E9EE]
+                        hover:bg-[#E6F3F4]
                         transition
                     "
                 >

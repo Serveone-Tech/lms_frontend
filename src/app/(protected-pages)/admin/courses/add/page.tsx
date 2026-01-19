@@ -58,8 +58,8 @@ export default function AddCoursePage() {
                                     w-full rounded-lg border border-gray-300
                                     px-4 py-2.5 text-sm
                                     focus:outline-none
-                                    focus:border-[#E6C9D5]
-                                    focus:ring-2 focus:ring-[#F4E9EE]
+                                    focus:border-[#8CC6CB]
+                                    focus:ring-2 focus:ring-[#E6F3F4]
                                 "
                                 placeholder="e.g. Complete Web Development"
                                 value={title}
@@ -76,8 +76,8 @@ export default function AddCoursePage() {
                                     w-full rounded-lg border border-gray-300
                                     px-4 py-2.5 text-sm
                                     focus:outline-none
-                                    focus:border-[#E6C9D5]
-                                    focus:ring-2 focus:ring-[#F4E9EE]
+                                    focus:border-[#8CC6CB]
+                                    focus:ring-2 focus:ring-[#E6F3F4]
                                 "
                                 placeholder="e.g. Web Development"
                                 value={category}
@@ -129,11 +129,11 @@ export default function AddCoursePage() {
                                 className="
                                     inline-flex items-center justify-center
                                     rounded-xl
-                                    bg-[#F4E9EE]
-                                    border border-[#E6C9D5]
+                                    bg-[#E6F3F4]
+                                    border border-[#8CC6CB]
                                     px-6 py-2.5
-                                    text-[#7A3E55] font-medium
-                                    hover:bg-[#EAD6DE]
+                                    text-[#006c74] font-medium
+                                    hover:bg-[#00555C]
                                     transition-all
                                     disabled:opacity-60
                                 "

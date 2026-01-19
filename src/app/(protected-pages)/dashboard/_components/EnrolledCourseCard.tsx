@@ -19,7 +19,7 @@ export default function EnrolledCourseCard({ course }: Props) {
         <div className="bg-white rounded-2xl border p-5 flex flex-col">
             {/* Header */}
             <div className="flex gap-3 items-start">
-                <div className="h-10 w-10 rounded-lg bg-[#F4E9EE] flex items-center justify-center text-[#7A3E55] font-bold text-sm">
+                <div className="h-10 w-10 rounded-lg bg-[#E6F3F4] flex items-center justify-center text-[#006c74] font-bold text-sm">
                     SEO
                 </div>
 

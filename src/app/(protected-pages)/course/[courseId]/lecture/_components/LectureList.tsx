@@ -20,7 +20,7 @@ export default function LectureList(props: Props) {
                         lecture._id,
                     )}
                     locked={
-                        !lecture.isPreviewFree && !props.hasPurchased
+                        !lecture.isFree && !props.hasPurchased
                     }
                     active={lecture._id === props.currentLectureId}
                     onClick={() => props.onSelect(lecture)}

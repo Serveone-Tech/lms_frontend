@@ -1,110 +1,115 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, Plus } from 'lucide-react'
-import { createLecture } from '@/services/lectureService'
+import LectureItem from './LectureItem'
 import { deleteModule } from '@/services/moduleService'
 import toast from '@/components/ui/toast'
 import { Notification } from '@/components/ui'
+import ConfirmModal from '@/components/ui/toast/ConfirmModal'
+import { createLecture } from '@/services/lectureService'
 
 type Props = {
-    module: Module
-    refresh: () => Promise<void>
+  module: any
+  refresh: () => Promise<void>
 }
 
 export default function ModuleItem({ module, refresh }: Props) {
-    const [open, setOpen] = useState(true)
-    const [lectureTitle, setLectureTitle] = useState('')
-    const [loading, setLoading] = useState(false)
+  const [lectureTitle, setLectureTitle] = useState('')
+  const [activeLectureId, setActiveLectureId] = useState<string | null>(null)
+  const [showConfirm, setShowConfirm] = useState(false)
 
-    const addLecture = async () => {
-        if (!lectureTitle.trim()) return
-console.log('Adding lecture to module:', module);
-        setLoading(true)
-        await createLecture(module._id, lectureTitle)
-        setLectureTitle('')
-        setLoading(false)
+  const handleAddLecture = async () => {
+    if (!lectureTitle.trim()) return
 
-        toast.push(
-            <Notification type="success" title="Lecture Added">
-                Lecture created successfully
-            </Notification>
-        )
+    await createLecture(module._id, lectureTitle)
+    setLectureTitle('')
+    await refresh()
+  }
 
-        refresh()
-    }
-
-    return (
-        <div className="border rounded-xl bg-white">
-            {/* MODULE HEADER */}
-            <div
-                className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-gray-50"
-                onClick={() => setOpen(!open)}
-            >
-                <div>
-                    <h3 className="font-medium text-gray-800">
-                        {module.title}
-                    </h3>
-                    <p className="text-xs text-gray-500">
-                        {module.lectures.length} lectures
-                    </p>
-                </div>
-
-                {open ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-            </div>
-
-            {/* MODULE BODY */}
-            {open && (
-                <div className="px-5 pb-5">
-                    {/* LECTURES */}
-                    <div className="space-y-2 mb-4">
-                        {module.lectures.map((lec, i) => (
-                            <div
-                                key={lec._id}
-                                className="flex justify-between text-sm px-3 py-2 rounded-md bg-gray-50"
-                            >
-                                <span>
-                                    {i + 1}. {lec.title}
-                                </span>
-
-                                {lec.isPreviewFree && (
-                                    <span className="text-xs text-green-600">
-                                        Free
-                                    </span>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* ADD LECTURE */}
-                    <div className="flex gap-2">
-                        <input
-                            className="
-                                flex-1 rounded-lg border px-3 py-2 text-sm
-                                focus:ring-2 focus:ring-[#F4E9EE]
-                            "
-                            placeholder="New lecture title"
-                            value={lectureTitle}
-                            onChange={(e) =>
-                                setLectureTitle(e.target.value)
-                            }
-                        />
-
-                        <button
-                            onClick={addLecture}
-                            disabled={loading}
-                            className="
-                                flex items-center gap-1 px-4 py-2 text-sm
-                                rounded-lg bg-[#F4E9EE] text-[#7A3E55]
-                                hover:bg-[#EAD6DE]
-                            "
-                        >
-                            <Plus size={14} />
-                            Add
-                        </button>
-                    </div>
-                </div>
-            )}
-        </div>
+  const handleDeleteModule = async () => {
+    await deleteModule(module._id)
+    toast.push(
+      <Notification type="success" title="Deleted">
+        Module deleted
+      </Notification>
     )
+    await refresh()
+    setShowConfirm(false)
+  }
+
+  return (
+    <>
+      <div className="border rounded-2xl p-4 bg-white">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-3">
+          <div>
+            <h3 className="font-medium">{module.title}</h3>
+            <p className="text-xs text-gray-500">
+              {module.lectures.length} lectures
+            </p>
+          </div>
+
+          <button
+            onClick={() => setShowConfirm(true)}
+            className="text-xs text-red-500"
+          >
+            Delete
+          </button>
+        </div>
+
+        {/* Lectures */}
+        <div className="space-y-2">
+          {module.lectures.map((lecture: any) => (
+            <div key={lecture._id}>
+              <div className="flex justify-between items-center px-3 py-2 rounded-lg bg-gray-50">
+                <span className="text-sm">{lecture.title}</span>
+
+                <button
+                  onClick={() =>
+                    setActiveLectureId(
+                      activeLectureId === lecture._id
+                        ? null
+                        : lecture._id
+                    )
+                  }
+                  className="text-xs text-[#006c74]"
+                >
+                  Edit
+                </button>
+              </div>
+
+              {activeLectureId === lecture._id && (
+                <LectureItem lecture={lecture} onUpdated={refresh} />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Add lecture */}
+        <div className="flex gap-2 mt-4">
+          <input
+            className="flex-1 border rounded-lg px-3 py-2 text-sm"
+            placeholder="New lecture title"
+            value={lectureTitle}
+            onChange={(e) => setLectureTitle(e.target.value)}
+          />
+          <button
+            onClick={handleAddLecture}
+            className="px-4 py-2 rounded-lg bg-[#E6F3F4]"
+          >
+            + Add
+          </button>
+        </div>
+      </div>
+
+      <ConfirmModal
+        open={showConfirm}
+        title="Delete Module"
+        message="All lectures inside this module will be deleted."
+        confirmText="Delete"
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={handleDeleteModule}
+      />
+    </>
+  )
 }

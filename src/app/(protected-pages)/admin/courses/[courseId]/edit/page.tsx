@@ -64,7 +64,7 @@ export default function AdminCourseEditPage() {
                 </div>
 
                 {/* Card */}
-                <div className="bg-white border border-[#E6C9D5] rounded-2xl p-6 space-y-6">
+                <div className="bg-white border border-[#8CC6CB] rounded-2xl p-6 space-y-6">
                     {/* Title */}
                     <div>
                         <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -77,8 +77,8 @@ export default function AdminCourseEditPage() {
                                 w-full rounded-lg border border-gray-300
                                 px-4 py-2.5 text-sm
                                 focus:outline-none
-                                focus:border-[#E6C9D5]
-                                focus:ring-2 focus:ring-[#F4E9EE]
+                                focus:border-[#8CC6CB]
+                                focus:ring-2 focus:ring-[#E6F3F4]
                             "
                         />
                     </div>
@@ -97,14 +97,14 @@ export default function AdminCourseEditPage() {
                                 w-full rounded-lg border border-gray-300
                                 px-4 py-2.5 text-sm
                                 focus:outline-none
-                                focus:border-[#E6C9D5]
-                                focus:ring-2 focus:ring-[#F4E9EE]
+                                focus:border-[#8CC6CB]
+                                focus:ring-2 focus:ring-[#E6F3F4]
                             "
                         />
                     </div>
 
                     {/* Publish Toggle */}
-                    <div className="flex items-center justify-between bg-[#FAF3F6] border border-[#E6C9D5] rounded-xl p-4">
+                    <div className="flex items-center justify-between bg-[#FAF3F6] border border-[#8CC6CB] rounded-xl p-4">
                         <div>
                             <p className="text-sm font-medium text-gray-700">
                                 Publish Course
@@ -122,7 +122,7 @@ export default function AdminCourseEditPage() {
                                 relative w-14 h-7 rounded-full transition-all
                                 ${
                                     isPublished
-                                        ? 'bg-[#E6C9D5]'
+                                        ? 'bg-[#8CC6CB]'
                                         : 'bg-gray-300'
                                 }
                             `}
@@ -162,10 +162,10 @@ export default function AdminCourseEditPage() {
                             disabled={loading}
                             className="
                                 px-6 py-2 rounded-lg text-sm font-medium
-                                bg-[#F4E9EE]
-                                border border-[#E6C9D5]
-                                text-[#7A3E55]
-                                hover:bg-[#EAD6DE]
+                                bg-[#E6F3F4]
+                                border border-[#8CC6CB]
+                                text-[#006c74]
+                                hover:bg-[#00555C]
                                 disabled:opacity-60
                             "
                         >

@@ -14,3 +14,17 @@ export const getCourseModules = (courseId: string) => {
         method: 'get',
     })
 }
+
+
+export const deleteModule = (moduleId: string) =>
+  ApiService.fetchDataWithAxios({
+    url: `/course/module/${moduleId}`,
+    method: 'delete',
+  })
+
+export const updateModule = (moduleId: string, title: string) =>
+  ApiService.fetchDataWithAxios({
+    url: `/course/module/${moduleId}`,
+    method: 'put',
+    data: { title },
+  })

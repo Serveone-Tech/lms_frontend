@@ -48,7 +48,7 @@ export default function AdminLecturesPage() {
 
                 {/* Add Module Card (TOP) */}
                 <div className="mb-10">
-                    <div className="bg-[#FFF9FB] border border-[#E6C9D5] rounded-2xl p-6 max-w-3xl mx-auto">
+                    <div className="bg-[#FFF9FB] border border-[#8CC6CB] rounded-2xl p-6 max-w-3xl mx-auto">
                         <h2 className="text-lg font-medium text-gray-800 mb-1">
                             Add New Module
                         </h2>
@@ -62,8 +62,8 @@ export default function AdminLecturesPage() {
                                     flex-1 rounded-xl border border-gray-300
                                     px-4 py-3 text-sm
                                     focus:outline-none
-                                    focus:border-[#E6C9D5]
-                                    focus:ring-2 focus:ring-[#F4E9EE]
+                                    focus:border-[#8CC6CB]
+                                    focus:ring-2 focus:ring-[#E6F3F4]
                                 "
                                 placeholder="Eg: Introduction, Setup, Basics"
                                 value={moduleTitle}
@@ -75,10 +75,10 @@ export default function AdminLecturesPage() {
                                 disabled={loading}
                                 className="
                                     rounded-xl px-6 py-3
-                                    bg-[#F4E9EE]
-                                    border border-[#E6C9D5]
-                                    text-[#7A3E55] font-medium
-                                    hover:bg-[#EAD6DE]
+                                    bg-[#E6F3F4]
+                                    border border-[#8CC6CB]
+                                    text-[#006c74] font-medium
+                                    hover:bg-[#00555C]
                                     transition
                                     disabled:opacity-60
                                 "

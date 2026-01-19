@@ -3,7 +3,7 @@ import ApiService from '@/services/ApiService'
 export type Lecture = {
     _id: string
     lectureTitle: string
-    isPreviewFree: boolean
+    isFree: boolean
     videoUrl?: string
 }
 

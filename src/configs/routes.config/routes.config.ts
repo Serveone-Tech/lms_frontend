@@ -2,8 +2,8 @@ import authRoute from './authRoute'
 import type { Routes } from '@/@types/routes'
 
 export const protectedRoutes: Routes = {
-    '/home': {
-        key: 'home',
+    '/dashboard': {
+        key: 'dashboard',
         authority: [],
         meta: {
             pageBackgroundType: 'plain',

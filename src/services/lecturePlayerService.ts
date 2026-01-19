@@ -4,7 +4,7 @@ export type Lecture = {
     _id: string
     lectureTitle: string
     videoUrl?: string
-    isPreviewFree: boolean
+    isFree: boolean
     duration?: number
 }
 

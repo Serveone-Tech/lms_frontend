@@ -13,9 +13,9 @@ export default function CouponCard() {
                 <button
                     className="
                         rounded-lg px-4 py-2 text-sm
-                        bg-[#F4E9EE]
-                        border border-[#E6C9D5]
-                        text-[#7A3E55]
+                        bg-[#E6F3F4]
+                        border border-[#8CC6CB]
+                        text-[#006c74]
                     "
                 >
                     Apply

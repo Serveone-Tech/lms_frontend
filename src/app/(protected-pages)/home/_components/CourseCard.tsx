@@ -5,6 +5,7 @@ interface Course {
     _id: string
     title: string
     category: string
+    price: number
     progress?: number
 }
 
@@ -23,9 +24,7 @@ export default function CourseCard({
                 {course.title}
             </h3>
 
-            <p className="text-sm text-gray-500 mt-1">
-                {course.category}
-            </p>
+            <p className="text-sm text-gray-500 mt-1">{course.category}</p>
 
             {variant === 'enrolled' && (
                 <div className="mt-4 space-y-2">
@@ -35,8 +34,8 @@ export default function CourseCard({
                             router.push(`/course/${course._id}/lecture`)
                         }
                         className="w-full mt-2 rounded-lg px-4 py-2 text-sm
-                        bg-[#F4E9EE] border border-[#E6C9D5]
-                        text-[#7A3E55] hover:bg-[#EAD6DE]"
+                        bg-[#E6F3F4] border border-[#8CC6CB]
+                        text-[#006c74] hover:bg-[#00555C]"
                     >
                         Resume
                     </button>
@@ -44,16 +43,29 @@ export default function CourseCard({
             )}
 
             {variant === 'browse' && (
-                <button
-                    onClick={() =>
-                        router.push(`/course/${course._id}`)
-                    }
-                    className="w-full mt-4 rounded-lg px-4 py-2 text-sm
-                    border border-[#E6C9D5] text-[#7A3E55]
-                    bg-[#F4E9EE] hover:bg-[#EAD6DE]"
-                >
-                    View Curriculum
-                </button>
+                <>
+                    <button
+                        onClick={() => router.push(`/course/${course._id}`)}
+                        className="w-full mt-4 rounded-lg px-4 py-2 text-sm
+                    border border-[#8CC6CB] text-[#006c74]
+                    bg-[#E6F3F4] hover:bg-[#00555C]"
+                    >
+                        View Curriculum
+                    </button>
+                    <button
+                        onClick={() =>
+                            router.push(`/course/${course._id}/payment`)
+                        }
+                        className="
+        w-full mt-4 rounded-lg px-4 py-2 text-sm
+        bg-[#006c74] text-white hover:bg-[#5e2f41]
+        flex items-center justify-center gap-2
+    "
+                    >
+                        <span>Buy Now</span>
+                        <span className="font-semibold">₹{course.price}</span>
+                    </button>
+                </>
             )}
         </div>
     )

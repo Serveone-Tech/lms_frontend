@@ -63,7 +63,7 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
                 onClick={handlePay}
                 className="
                     w-full rounded-xl px-4 py-3 text-sm font-medium
-                    bg-[#7A3E55] text-white
+                    bg-[#006c74] text-white
                     hover:opacity-90
                 "
             >
