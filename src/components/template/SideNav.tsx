@@ -59,6 +59,7 @@ const SideNav = ({
 
     const currentRouteKey = route?.key || ''
     const { session } = useCurrentSession()
+    console.log('SideNav session:', session)
 
     return (
         <div
@@ -95,7 +96,7 @@ const SideNav = ({
                         routeKey={currentRouteKey}
                         direction={direction}
                         translationSetup={translationSetup}
-                        userAuthority={session?.user?.authroity || []}
+                        userAuthority={session?.user?.authority || []}
                     />
                 </ScrollBar>
             </div>

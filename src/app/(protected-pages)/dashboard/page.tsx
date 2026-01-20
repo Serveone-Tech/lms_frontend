@@ -1,19 +1,26 @@
-'use client'
-
-import AdminGuard from '@/components/auth/AdminGuard/AdminGuard'
-import OfferBanner from './_components/OfferBanner'
-import EnrolledCourses from './_components/EnrolledCourses'
-import BrowseCourses from './_components/BrowseCourses'
+import BrowseCourses from "./_components/BrowseCourses";
+import EnrolledCourses from "./_components/EnrolledCourses";
+import PromoBanners from "./_components/PromoBanners";
 
 
-export default function UserDashboardPage() {
+export default function DashboardPage() {
     return (
-        <AdminGuard>
-            <div className="max-w-7xl mx-auto px-6 py-8 space-y-10">
-                <OfferBanner />
+        <div className="space-y-10">
+            <PromoBanners />
+
+            <section>
+                <h2 className="text-xl font-semibold mb-4">
+                    Enrolled Courses
+                </h2>
                 <EnrolledCourses />
+            </section>
+
+            <section>
+                <h2 className="text-xl font-semibold mb-4">
+                    Browse Courses
+                </h2>
                 <BrowseCourses />
-            </div>
-        </AdminGuard>
+            </section>
+        </div>
     )
 }

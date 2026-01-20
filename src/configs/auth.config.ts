@@ -22,6 +22,7 @@ export default {
                 const user = await validateCredential(
                     credentials as SignInCredential,
                 )
+                console.log('Authorized user:', user)
                 if (!user) {
                     return null
                 }
@@ -36,16 +37,21 @@ export default {
         }),
     ],
     callbacks: {
-        async session(payload) {
-            /** apply extra user attributes here, for example, we add 'authority' & 'id' in this section */
-            return {
-                ...payload.session,
-                user: {
-                    ...payload.session.user,
-                    id: payload.token.sub,
-                    authority: ['admin', 'user'],
-                },
+        async jwt({ token, user }) {
+            if (user) {
+                token.role = user.role
             }
+            return token
+        },
+
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.role = token.role
+                session.user.authority =
+                    token.role === 'admin' ? ['ADMIN'] : ['USER']
+            }
+
+            return session
         },
     },
 } satisfies NextAuthConfig

@@ -26,29 +26,32 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
         try {
             const order = await createOrder(course._id)
 
-            const rzp = new window.Razorpay({
+            const rzp = new (window as any).Razorpay({
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
                 amount: order.amount,
                 currency: order.currency,
                 order_id: order.id,
-                handler: async () => {
+                handler: async (response: any) => {
                     await verifyPayment({
-                        razorpay_order_id: order.id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
                         courseId: course._id,
                     })
 
                     toast.push(
                         <Notification type="success" title="Success">
-                            Payment successful
+                            Course unlocked successfully
                         </Notification>,
                     )
 
-                    onSuccess()
+                    // ✅ REDIRECT TO PLAYER
+                    router.replace(`/course/${course._id}/lecture`)
                 },
             })
 
             rzp.open()
-        } catch {
+        } catch (error) {
             toast.push(
                 <Notification type="danger" title="Error">
                     Payment failed
