@@ -7,7 +7,8 @@ import type {
     OnSignInPayload,
     OnOauthSignInPayload,
 } from '@/components/auth/SignIn'
-import { apiSignIn } from '@/services/AuthService'
+import { getSession, signIn } from 'next-auth/react'
+import { apiIssueBackendToken } from '@/services/AuthService'
 
 const SignInClient = () => {
     const router = useRouter()
@@ -19,26 +20,43 @@ const SignInClient = () => {
     }: OnSignInPayload) => {
         setSubmitting(true)
 
-        try {
-            const res = await apiSignIn(values)
-            localStorage.setItem('user', JSON.stringify(res))
-            console.log('Signed in user:',res.role)
-            if (res.role === 'admin') {
-                router.push('/admin/courses')
-            } else {
-                router.push('/dashboard')
-            }
-        } catch (err: any) {
-            setMessage(err?.response?.data?.message || 'Invalid credentials')
+        const res = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false, // 🔴 MUST
+        })
+
+        console.log('SignIn result:', res)
+
+        if (res?.error) {
+            setMessage('Invalid credentials')
             setSubmitting(false)
+            return
+        }
+
+        // ✅ session refresh
+        const session = await getSession()
+        console.log('Session after login:', session)
+        apiIssueBackendToken()
+        setSubmitting(false) // ✅ IMPORTANT
+
+        if (session?.user?.role === 'admin') {
+            router.replace('/admin/courses')
+        } else {
+            router.replace('/dashboard')
         }
     }
+
     const handleOAuthSignIn = async ({ type }: OnOauthSignInPayload) => {
-        if (type === 'google') {
-            await handleOauthSignIn('google')
-        }
-        if (type === 'github') {
-            await handleOauthSignIn('github')
+        await handleOauthSignIn(type)
+
+        // 🔥 OAuth ke baad session already set hota hai
+        const session = await getSession()
+
+        if (session?.user?.role === 'admin') {
+            router.replace('/admin/courses')
+        } else {
+            router.replace('/dashboard')
         }
     }
 

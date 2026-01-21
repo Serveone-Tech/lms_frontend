@@ -7,10 +7,7 @@ import type {
     SignUpResponse,
 } from '@/@types/auth'
 
-import type {
-    SignInCredential,
-    SignInResponse,
-} from '@/@types/auth'
+import type { SignInCredential, SignInResponse } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
     return ApiService.fetchDataWithAxios<SignInResponse>({
@@ -41,5 +38,14 @@ export async function apiResetPassword<T>(data: ResetPassword) {
         url: '/auth/reset-password',
         method: 'post',
         data,
+    })
+}
+
+export async function apiIssueBackendToken() {
+    return ApiService.fetchDataWithAxios<{
+        success: boolean
+    }>({
+        url: '/auth/issue-token',
+        method: 'post',
     })
 }

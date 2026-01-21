@@ -28,10 +28,11 @@ export default {
                 }
 
                 return {
-                    id: user.id,
-                    name: user.userName,
+                    id: user._id,
+                    name: user.name,
                     email: user.email,
                     image: user.avatar,
+                    role: user.role,
                 }
             },
         }),

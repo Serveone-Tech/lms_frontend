@@ -1,25 +1,37 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 import appConfig from '@/configs/app.config'
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl
 
-    // 👇 custom backend token (cookie)
-    const token = req.cookies.get('token')?.value
+    // Public paths
+    if (
+        pathname.startsWith('/api/auth') ||
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/favicon.ico')
+    ) {
+        return NextResponse.next()
+    }
+
+    const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+    })
 
     const isAuthPage =
         pathname === appConfig.unAuthenticatedEntryPath ||
         pathname.startsWith('/sign-up')
 
-    // 🔒 Not logged in → protect all private pages
+    // 🔒 Not logged in
     if (!token && !isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.unAuthenticatedEntryPath, req.url)
         )
     }
 
-    // 🔁 Logged in but visiting login/signup → send to dashboard
+    // 🔁 Logged in but visiting login
     if (token && isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.authenticatedEntryPath, req.url)
@@ -30,5 +42,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!_next|api|favicon.ico).*)'],
+    matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

@@ -9,7 +9,7 @@ const navigationConfig: NavigationTree[] = [
         translateKey: 'nav.dashboard',
         icon: 'dashboard',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['user', 'admin'],
+        authority: ['USER', 'ADMIN'],
         subMenu: [],
     },
     {
@@ -19,7 +19,7 @@ const navigationConfig: NavigationTree[] = [
         translateKey: 'nav.courses',
         icon: 'courses',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['admin'],
+        authority: ['ADMIN'],
         subMenu: [],
     },
     {
@@ -29,7 +29,7 @@ const navigationConfig: NavigationTree[] = [
         translateKey: 'nav.users',
         icon: 'users',
         type: NAV_ITEM_TYPE_ITEM,
-        authority: ['admin'],
+        authority: ['ADMIN'],
         subMenu: [],
     },
 ]
