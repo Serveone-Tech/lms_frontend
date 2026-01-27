@@ -54,7 +54,8 @@ export default function CoursePlayerLayout({ courseId }: Props) {
                 <VideoPanel
                     lecture={activeLecture}
                     hasPurchased={hasPurchased}
-                    onCompleted={loadPlayer} // 🔁 refresh progress
+                    onCompleted={loadPlayer}
+                    courseId={courseId}
                 />
             </div>
 

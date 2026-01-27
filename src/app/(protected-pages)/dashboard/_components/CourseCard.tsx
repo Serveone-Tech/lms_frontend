@@ -47,8 +47,8 @@ export default function CourseCard({
                     <button
                         onClick={() => router.push(`/course/${course._id}`)}
                         className="w-full mt-4 rounded-lg px-4 py-2 text-sm
-                    border border-[#8CC6CB] text-[#006c74]
-                    bg-[#E6F3F4] hover:bg-[#00555C]"
+                    border border-[#8CC6CB] text-white
+                    bg-[#006c74] hover:bg-[#00555C]"
                     >
                         View Curriculum
                     </button>

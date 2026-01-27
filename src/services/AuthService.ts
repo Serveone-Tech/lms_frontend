@@ -41,11 +41,11 @@ export async function apiResetPassword<T>(data: ResetPassword) {
     })
 }
 
-export async function apiIssueBackendToken() {
-    return ApiService.fetchDataWithAxios<{
-        success: boolean
-    }>({
-        url: '/auth/issue-token',
-        method: 'post',
-    })
+export async function apiIssueBackendToken(data: { userId: string }) {
+  return ApiService.fetchDataWithAxios({
+    url: '/auth/issue-token',
+    method: 'post',
+    data,
+  })
 }
+

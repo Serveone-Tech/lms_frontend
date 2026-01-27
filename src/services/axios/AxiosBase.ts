@@ -4,38 +4,23 @@ import AxiosRequestIntrceptorConfigCallback from './AxiosRequestIntrceptorConfig
 import appConfig from '@/configs/app.config'
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
 
-// ⚠️ important: conditional import
-let getServerToken: (() => string | undefined) | null = null
-
-if (typeof window === 'undefined') {
-    // server-only import (safe)
-    import('next/headers').then(({ cookies }) => {
-        getServerToken = () => cookies().get('token')?.value
-    })
-}
-
 const AxiosBase = axios.create({
+    baseURL: appConfig.apiPrefix, // e.g. http://localhost:5000/api
     timeout: 60000,
-    baseURL: appConfig.apiPrefix,
-    withCredentials: true,
+    withCredentials: true, // ✅ VERY IMPORTANT (cookie send karega)
 })
 
 AxiosBase.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        /** 🔐 SERVER SIDE TOKEN */
-        if (getServerToken) {
-            const token = getServerToken()
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`
-            }
-        }
+        /**
+         * ✅ CLIENT SIDE:
+         * Cookie automatically jayegi (token)
+         * No manual Authorization header required
+         */
 
-        /** 🔁 EXISTING CALLBACK (DON'T REMOVE) */
         return AxiosRequestIntrceptorConfigCallback(config)
     },
-    (error) => {
-        return Promise.reject(error)
-    },
+    (error) => Promise.reject(error),
 )
 
 AxiosBase.interceptors.response.use(

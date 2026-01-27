@@ -28,7 +28,7 @@ export default {
                 }
 
                 return {
-                    id: user._id,
+                    id: user.id,
                     name: user.name,
                     email: user.email,
                     image: user.avatar,
@@ -40,18 +40,21 @@ export default {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.role = user.role
+                console.log('JWT callback user:', user)
+                console.log('JWT callback token before:', token)
+                token.userId = user.id as string
+                token.role = user.role as string
             }
             return token
         },
 
         async session({ session, token }) {
             if (session.user) {
-                session.user.role = token.role
+                session.user.id = token.userId as string // 🔥 IMPORTANT
+                session.user.role = token.role as string
                 session.user.authority =
                     token.role === 'admin' ? ['ADMIN'] : ['USER']
             }
-
             return session
         },
     },

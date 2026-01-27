@@ -1,9 +1,11 @@
 import CoursePlayerLayout from '@/components/course-player/CoursePlayerLayout'
 
-export default function CoursePlayerPage({
+export default async function CoursePlayerPage({
     params,
 }: {
-    params: { courseId: string }
+    params: Promise<{ courseId: string }>
 }) {
-    return <CoursePlayerLayout courseId={params.courseId} />
+    const { courseId } = await params   // ✅ REQUIRED IN NEXT 15
+
+    return <CoursePlayerLayout courseId={courseId} />
 }

@@ -23,21 +23,21 @@ const SignInClient = () => {
         const res = await signIn('credentials', {
             email: values.email,
             password: values.password,
-            redirect: false, // 🔴 MUST
+            redirect: false,
         })
-
-        console.log('SignIn result:', res)
 
         if (res?.error) {
             setMessage('Invalid credentials')
             setSubmitting(false)
             return
         }
-
         // ✅ session refresh
         const session = await getSession()
         console.log('Session after login:', session)
-        apiIssueBackendToken()
+
+        await apiIssueBackendToken({
+            userId: session?.user?.id, // 🔥 यही key point है
+        })
         setSubmitting(false) // ✅ IMPORTANT
 
         if (session?.user?.role === 'admin') {
