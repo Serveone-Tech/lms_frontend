@@ -6,6 +6,7 @@ import NavigationProvider from '@/components/template/Navigation/NavigationProvi
 import { getNavigation } from '@/server/actions/navigation/getNavigation'
 import { getTheme } from '@/server/actions/theme'
 import type { ReactNode } from 'react'
+import Script from 'next/script'
 import '@/assets/styles/app.css'
 
 export const metadata = {
@@ -14,30 +15,33 @@ export const metadata = {
 
 export default async function RootLayout({
     children,
-}: Readonly<{
+}: {
     children: ReactNode
-}>) {
+}) {
     const session = await auth()
-
     const navigationTree = await getNavigation()
-
     const theme = await getTheme()
 
     return (
-        <AuthProvider session={session}>
-            <html
-                className={theme.mode === 'dark' ? 'dark' : 'light'}
-                dir={theme.direction}
-                suppressHydrationWarning
-            >
-                <body suppressHydrationWarning>
+        <html
+            className={theme.mode === 'dark' ? 'dark' : 'light'}
+            dir={theme.direction}
+            suppressHydrationWarning
+        >
+            <body suppressHydrationWarning>
+                <Script
+                    src="https://checkout.razorpay.com/v1/checkout.js"
+                    strategy="beforeInteractive"
+                />
+
+                <AuthProvider session={session}>
                     <ThemeProvider theme={theme}>
                         <NavigationProvider navigationTree={navigationTree}>
                             {children}
                         </NavigationProvider>
                     </ThemeProvider>
-                </body>
-            </html>
-        </AuthProvider>
+                </AuthProvider>
+            </body>
+        </html>
     )
 }

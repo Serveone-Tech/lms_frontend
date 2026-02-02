@@ -17,13 +17,17 @@ export async function apiSignIn(data: SignInCredential) {
     })
 }
 
-export async function apiSignUp(data: SignUpCredential) {
+export async function apiSignUp(data: FormData) {
     return ApiService.fetchDataWithAxios<SignUpResponse>({
         url: '/auth/signup',
         method: 'post',
         data,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
     })
 }
+
 
 export async function apiForgotPassword<T>(data: ForgotPassword) {
     return ApiService.fetchDataWithAxios<T>({

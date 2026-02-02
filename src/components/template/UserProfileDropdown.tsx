@@ -5,18 +5,18 @@ import Dropdown from '@/components/ui/Dropdown'
 import withHeaderItem from '@/utils/hoc/withHeaderItem'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
-import useCurrentSession from '@/utils/hooks/useCurrentSession'
 import { PiUserDuotone, PiSignOutDuotone } from 'react-icons/pi'
+import { useSessionContext } from '../auth/AuthProvider/SessionContext'
 
 const _UserDropdown = () => {
-    const { session } = useCurrentSession()
+    const { session } = useSessionContext()
 
     const avatarProps = {
         ...(session?.user?.image
             ? { src: session.user.image }
             : { icon: <PiUserDuotone /> }),
     }
-
+console.log('session in dropdown:', session)
     const handleLogout = async () => {
         await signOut({
             callbackUrl: '/sign-in',
@@ -39,7 +39,7 @@ const _UserDropdown = () => {
                     <Avatar {...avatarProps} />
                     <div>
                         <div className="font-bold text-gray-900">
-                            {session?.user?.name || 'Anonymous'}
+                            {session?.user?.userName || 'Anonymous'}
                         </div>
                         <div className="text-xs">
                             {session?.user?.email || ''}

@@ -27,7 +27,7 @@ export default function AdminUsersPage() {
 
         return users.filter(
             (u) =>
-                (u.name ?? '').toLowerCase().includes(q) ||
+                (u.userName ?? '').toLowerCase().includes(q) ||
                 (u.email ?? '').toLowerCase().includes(q),
         )
     }, [users, search])
@@ -61,7 +61,7 @@ export default function AdminUsersPage() {
                 <TBody>
                     {filteredUsers.map((user) => (
                         <Tr key={user._id}>
-                            <Td className="font-medium">{user.name}</Td>
+                            <Td className="font-medium">{user.userName}</Td>
                             <Td>{user.email}</Td>
                             <Td>
                                 {new Date(user.createdAt).toLocaleDateString()}

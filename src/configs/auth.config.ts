@@ -29,9 +29,9 @@ export default {
 
                 return {
                     id: user.id,
-                    name: user.name,
+                    userName: user.userName,
                     email: user.email,
-                    image: user.avatar,
+                    image: user.photoUrl,
                     role: user.role,
                 }
             },
@@ -44,6 +44,7 @@ export default {
                 console.log('JWT callback token before:', token)
                 token.userId = user.id as string
                 token.role = user.role as string
+                token.userName = user.userName
             }
             return token
         },
@@ -52,6 +53,7 @@ export default {
             if (session.user) {
                 session.user.id = token.userId as string // 🔥 IMPORTANT
                 session.user.role = token.role as string
+                session.user.userName = token.userName
                 session.user.authority =
                     token.role === 'admin' ? ['ADMIN'] : ['USER']
             }

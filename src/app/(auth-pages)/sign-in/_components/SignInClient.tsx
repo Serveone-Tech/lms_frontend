@@ -7,11 +7,13 @@ import type {
     OnSignInPayload,
     OnOauthSignInPayload,
 } from '@/components/auth/SignIn'
-import { getSession, signIn } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { apiIssueBackendToken } from '@/services/AuthService'
+import { useSessionContext } from '@/components/auth/AuthProvider/SessionContext'
 
 const SignInClient = () => {
     const router = useRouter()
+    const { refreshSession, session } = useSessionContext()
 
     const handleSignIn = async ({
         values,
@@ -31,33 +33,30 @@ const SignInClient = () => {
             setSubmitting(false)
             return
         }
-        // ✅ session refresh
-        const session = await getSession()
-        console.log('Session after login:', session)
+
+        // 🔥 KEY FIX
+        const updatedSession = await refreshSession()
+
+        console.log('updatedSession', updatedSession)
 
         await apiIssueBackendToken({
-            userId: session?.user?.id, // 🔥 यही key point है
+            userId: updatedSession?.user?.id,
         })
-        setSubmitting(false) // ✅ IMPORTANT
 
-        if (session?.user?.role === 'admin') {
-            router.replace('/admin/courses')
-        } else {
-            router.replace('/dashboard')
-        }
+        router.replace(
+            updatedSession?.user?.role === 'admin'
+                ? '/admin/courses'
+                : '/dashboard',
+        )
     }
 
     const handleOAuthSignIn = async ({ type }: OnOauthSignInPayload) => {
         await handleOauthSignIn(type)
+        await refreshSession()
 
-        // 🔥 OAuth ke baad session already set hota hai
-        const session = await getSession()
-
-        if (session?.user?.role === 'admin') {
-            router.replace('/admin/courses')
-        } else {
-            router.replace('/dashboard')
-        }
+        router.replace(
+            updatedSession?.user?.role === 'admin' ? '/admin/courses' : '/dashboard',
+        )
     }
 
     return <SignIn onSignIn={handleSignIn} onOauthSignIn={handleOAuthSignIn} />

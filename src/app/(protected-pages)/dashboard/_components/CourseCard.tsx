@@ -31,7 +31,7 @@ export default function CourseCard({
                     <ProgressBar value={course.progress || 0} />
                     <button
                         onClick={() =>
-                            router.push(`/course/${course._id}/lecture`)
+                            router.push(`/course/${course._id}`)
                         }
                         className="w-full mt-2 rounded-lg px-4 py-2 text-sm
                         bg-[#E6F3F4] border border-[#8CC6CB]

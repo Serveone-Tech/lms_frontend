@@ -1,90 +1,53 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
-import type { User } from 'next-auth'
-
-type Session = {
-    user: (User & Record<string, any>) | null
-    expires: string | null
-}
+import { createContext, useContext, useState } from 'react'
+import { getSession } from 'next-auth/react'
+import type { Session } from 'next-auth'
 
 type SessionContextType = {
     session: Session | null
     loading: boolean
-    refreshSession: () => Promise<void>
+    refreshSession: () => Promise<Session | null>
     clearSession: () => void
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined)
 
-export function SessionProvider({
+export const SessionProvider = ({
     children,
+    initialSession,
 }: {
     children: React.ReactNode
-}) {
-    const [session, setSession] = useState<Session | null>(null)
-    const [loading, setLoading] = useState(true)
-
-    const fetchSession = async () => {
-        try {
-            const res = await fetch('/api/auth/session', {
-                credentials: 'include',
-            })
-
-            if (!res.ok) {
-                setSession(null)
-                return
-            }
-
-            const data = await res.json()
-
-            setSession({
-                user: data.user ?? null,
-                expires: data.expires ?? null,
-            })
-        } catch {
-            setSession(null)
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchSession()
-    }, [])
+    initialSession: Session | null
+}) => {
+    const [session, setSession] = useState<Session | null>(initialSession)
+    const [loading, setLoading] = useState(false)
 
     const refreshSession = async () => {
         setLoading(true)
-        await fetchSession()
+        const updatedSession = await getSession()
+        setSession(updatedSession)
+        setLoading(false)
+        return updatedSession   
     }
 
     const clearSession = () => {
         setSession(null)
-        setLoading(false)
     }
 
     return (
         <SessionContext.Provider
-            value={{
-                session,
-                loading,
-                refreshSession,
-                clearSession,
-            }}
+            value={{ session, loading, refreshSession, clearSession }}
         >
             {children}
         </SessionContext.Provider>
     )
 }
 
-export function useSessionContext() {
-    const context = useContext(SessionContext)
-    if (!context) {
-        throw new Error(
-            'useSessionContext must be used within SessionProvider'
-        )
+export const useSessionContext = () => {
+    const ctx = useContext(SessionContext)
+    if (!ctx) {
+        throw new Error('useSessionContext must be used within SessionProvider')
     }
-    return context
+    return ctx
 }
-
-export default SessionContext

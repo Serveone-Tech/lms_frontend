@@ -37,7 +37,7 @@ const Logo = (props: LogoProps) => {
                             type === 'full' ? '' : 'hidden',
                             imgClass,
                         )}
-                        src={`${LOGO_SRC_PATH}zalgo-logo-full.png`}
+                        src={`${LOGO_SRC_PATH}logo-full.png`}
                         alt={`${APP_NAME} logo`}
                         width={width}
                         height={height}
@@ -49,7 +49,7 @@ const Logo = (props: LogoProps) => {
                             type === 'streamline' ? '' : 'hidden',
                             imgClass,
                         )}
-                        src={`${LOGO_SRC_PATH}zalgo-logo.png`}
+                        src={`${LOGO_SRC_PATH}logo.png`}
                         alt={`${APP_NAME} logo`}
                         width={width}
                         height={height}
@@ -64,7 +64,7 @@ const Logo = (props: LogoProps) => {
                             type === 'full' ? '' : 'hidden',
                             imgClass,
                         )}
-                        src={`${LOGO_SRC_PATH}zalgo-logo-full.png`}
+                        src={`${LOGO_SRC_PATH}logo-full.png`}
                         alt={`${APP_NAME} logo`}
                         width={width}
                         height={height}
@@ -75,7 +75,7 @@ const Logo = (props: LogoProps) => {
                             type === 'streamline' ? '' : 'hidden',
                             imgClass,
                         )}
-                        src={`${LOGO_SRC_PATH}zalgo-logo.png`}
+                        src={`${LOGO_SRC_PATH}logo.png`}
                         alt={`${APP_NAME} logo`}
                         width={width}
                         height={height}

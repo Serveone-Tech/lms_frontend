@@ -1,8 +1,9 @@
+import { useSessionContext } from '@/components/auth/AuthProvider/SessionContext'
 import { useContext } from 'react'
-import SessionContext from '@/components/auth/AuthProvider/SessionContext'
+
 
 const useCurrentSession = () => {
-    const context = useContext(SessionContext)
+    const context = useContext(useSessionContext)
 
     return {
         session: context || {

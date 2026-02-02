@@ -51,7 +51,7 @@ const Avatar = (props: AvatarProps) => {
                 : 1,
         )
     }
-
+    const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL
     useEffect(() => {
         innerScale()
     }, [scale, children])
@@ -73,12 +73,13 @@ const Avatar = (props: AvatarProps) => {
         typeof size === 'string' ? `avatar-${size}` : '',
         className,
     )
+    const imageSrc = src?.startsWith('http') ? src : `${BACKEND_URL}${src}`
 
-    if (src) {
+    if (imageSrc) {
         children = (
             <img
                 className={`avatar-img avatar-${shape}`}
-                src={src}
+                src={imageSrc}
                 srcSet={srcSet}
                 alt={alt}
                 loading="lazy"
