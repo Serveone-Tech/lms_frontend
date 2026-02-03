@@ -11,6 +11,12 @@ import { signIn } from 'next-auth/react'
 import { apiIssueBackendToken } from '@/services/AuthService'
 import { useSessionContext } from '@/components/auth/AuthProvider/SessionContext'
 
+declare module 'next-auth' {
+    interface User {
+        role?: string
+    }
+}
+
 const SignInClient = () => {
     const router = useRouter()
     const { refreshSession } = useSessionContext()

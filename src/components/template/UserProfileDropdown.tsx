@@ -16,7 +16,6 @@ const _UserDropdown = () => {
             ? { src: session.user.image }
             : { icon: <PiUserDuotone /> }),
     }
-console.log('session in dropdown:', session)
     const handleLogout = async () => {
         await signOut({
             callbackUrl: '/sign-in',
