@@ -55,7 +55,7 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
                         </Notification>,
                     )
 
-                    router.replace(`/course/${course._id}/lecture`)
+                    router.replace(`/course/${course._id}`)
                 },
 
                 theme: {

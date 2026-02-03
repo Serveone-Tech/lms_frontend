@@ -7,6 +7,11 @@ import type {
     SignUpResponse,
 } from '@/@types/auth'
 
+type VerifyOtpPayload = {
+    email: string
+    otp: string
+}
+
 import type { SignInCredential, SignInResponse } from '@/@types/auth'
 
 export async function apiSignIn(data: SignInCredential) {
@@ -53,3 +58,12 @@ export async function apiIssueBackendToken(data: { userId: string }) {
   })
 }
 
+export const apiVerifyOtp = (data: VerifyOtpPayload) => {
+    return ApiService.fetchDataWithAxios<{
+        resetToken: string
+    }>({
+        url: '/auth/verify-otp',
+        method: 'post',
+        data,
+    })
+}

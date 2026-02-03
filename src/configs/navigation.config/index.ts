@@ -13,6 +13,16 @@ const navigationConfig: NavigationTree[] = [
         subMenu: [],
     },
     {
+        key: 'profile',
+        path: '/profile',
+        title: 'Update Profile',
+        translateKey: 'nav.profile',
+        icon: 'profile',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['USER', 'ADMIN'],
+        subMenu: [],
+    },
+    {
         key: 'courses',
         path: '/admin/courses',
         title: 'Courses',

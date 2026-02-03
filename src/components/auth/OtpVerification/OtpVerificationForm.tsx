@@ -9,6 +9,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import type { CommonProps } from '@/@types/common'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { apiVerifyOtp } from '@/services/AuthService'
 
 interface OtpVerificationFormProps extends CommonProps {
     setOtpVerified?: (message: string) => void
@@ -25,7 +27,10 @@ const validationSchema = z.object({
     otp: z.string().min(OTP_LENGTH, { message: 'Please enter a valid OTP' }),
 })
 
+
 const OtpVerificationForm = (props: OtpVerificationFormProps) => {
+    const router = useRouter()
+    const searchParams = useSearchParams()
     const [isSubmitting, setSubmitting] = useState<boolean>(false)
 
     const { className, setMessage, setOtpVerified } = props
@@ -38,24 +43,25 @@ const OtpVerificationForm = (props: OtpVerificationFormProps) => {
         resolver: zodResolver(validationSchema),
     })
 
-    const onOtpSend = async (values: ForgotPasswordFormSchema) => {
-        const { otp } = values
-        setSubmitting(true)
-        try {
-            /** simulate api call with sleep */
-            await sleep(1000)
-            setSubmitting(false)
-            setOtpVerified?.('OTP verified!')
-        } catch (errors) {
-            setMessage?.(
-                typeof errors === 'string' ? errors : 'Some error occured!',
-            )
-            setSubmitting(false)
-        }
+   const onOtpSend = async (values) => {
+  setSubmitting(true)
+  try {
+    const email = searchParams.get('email')
 
-        console.log('otp', otp)
-        setSubmitting(false)
-    }
+    const res = await apiVerifyOtp({
+      email,
+      otp: values.otp,
+    })
+
+    setOtpVerified?.('OTP verified!')
+
+    router.replace(`/reset-password?token=${res.resetToken}`)
+  } catch (err) {
+    setMessage?.('Invalid OTP')
+  } finally {
+    setSubmitting(false)
+  }
+}
 
     return (
         <div className={className}>

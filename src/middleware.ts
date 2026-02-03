@@ -6,11 +6,19 @@ import appConfig from '@/configs/app.config'
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl
 
-    // Public paths
+    // ✅ PUBLIC / STATIC PATHS (NO AUTH)
     if (
         pathname.startsWith('/api/auth') ||
         pathname.startsWith('/_next') ||
-        pathname.startsWith('/favicon.ico')
+        pathname.startsWith('/favicon.ico') ||
+        pathname.startsWith('/uploads') ||  
+        pathname.startsWith('/img') ||         
+        pathname.startsWith('/images') ||      
+        pathname.startsWith('/forgot-password') ||
+        pathname.startsWith('/reset-password') ||
+        pathname.startsWith('/otp-verification') ||
+        pathname.startsWith('/sign-in') ||
+        pathname.startsWith('/sign-up')
     ) {
         return NextResponse.next()
     }
@@ -22,16 +30,18 @@ export async function middleware(req: NextRequest) {
 
     const isAuthPage =
         pathname === appConfig.unAuthenticatedEntryPath ||
-        pathname.startsWith('/sign-up')
+        pathname.startsWith('/sign-up') ||
+        pathname.startsWith('/forgot-password') ||
+        pathname.startsWith('/reset-password')
 
-    // 🔒 Not logged in
+    // 🔒 Protected routes
     if (!token && !isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.unAuthenticatedEntryPath, req.url)
         )
     }
 
-    // 🔁 Logged in but visiting login
+    // 🔁 Logged-in user visiting auth pages
     if (token && isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.authenticatedEntryPath, req.url)

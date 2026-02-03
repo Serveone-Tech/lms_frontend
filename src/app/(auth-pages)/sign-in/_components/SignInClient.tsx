@@ -51,12 +51,9 @@ const SignInClient = () => {
     }
 
     const handleOAuthSignIn = async ({ type }: OnOauthSignInPayload) => {
-        await handleOauthSignIn(type)
-        await refreshSession()
-
-        router.replace(
-            updatedSession?.user?.role === 'admin' ? '/admin/courses' : '/dashboard',
-        )
+        if (type === 'google') {
+            await handleOauthSignIn(type, '/oauth-success')
+        }
     }
 
     return <SignIn onSignIn={handleSignIn} onOauthSignIn={handleOAuthSignIn} />
