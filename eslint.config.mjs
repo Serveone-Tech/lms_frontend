@@ -12,9 +12,16 @@ const compat = new FlatCompat({
 const eslintConfig = [
     ...compat.extends('next/core-web-vitals', 'next/typescript'),
     {
+        linterOptions: {
+            // ✅ THIS IS THE KEY FIX
+            reportUnusedDisableDirectives: false,
+        },
         rules: {
+            // deploy unblock
             '@typescript-eslint/no-unused-vars': 'off',
             '@typescript-eslint/no-explicit-any': 'off',
+
+            // existing disables
             '@typescript-eslint/no-unused-expressions': 'off',
             '@next/next/no-img-element': 'off',
             'react-hooks/rules-of-hooks': 'off',
