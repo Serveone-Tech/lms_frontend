@@ -13,7 +13,7 @@ import { useSessionContext } from '@/components/auth/AuthProvider/SessionContext
 
 const SignInClient = () => {
     const router = useRouter()
-    const { refreshSession, session } = useSessionContext()
+    const { refreshSession } = useSessionContext()
 
     const handleSignIn = async ({
         values,
@@ -34,17 +34,21 @@ const SignInClient = () => {
             return
         }
 
-        // 🔥 KEY FIX
+        // ✅ now refreshSession returns session
         const updatedSession = await refreshSession()
 
-        console.log('updatedSession', updatedSession)
+        if (!updatedSession?.user?.id) {
+            setMessage('Session not initialized. Please try again.')
+            setSubmitting(false)
+            return
+        }
 
         await apiIssueBackendToken({
-            userId: updatedSession?.user?.id,
+            userId: updatedSession.user.id, // ✅ now string
         })
 
         router.replace(
-            updatedSession?.user?.role === 'admin'
+            updatedSession.user.role === 'admin'
                 ? '/admin/courses'
                 : '/dashboard',
         )
