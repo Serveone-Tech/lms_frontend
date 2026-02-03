@@ -7,10 +7,13 @@ import type {
     OnSignInPayload,
     OnOauthSignInPayload,
 } from '@/components/auth/SignIn'
-import { apiSignIn } from '@/services/AuthService'
+import { signIn } from 'next-auth/react'
+import { apiIssueBackendToken } from '@/services/AuthService'
+import { useSessionContext } from '@/components/auth/AuthProvider/SessionContext'
 
 const SignInClient = () => {
     const router = useRouter()
+    const { refreshSession, session } = useSessionContext()
 
     const handleSignIn = async ({
         values,
@@ -19,26 +22,37 @@ const SignInClient = () => {
     }: OnSignInPayload) => {
         setSubmitting(true)
 
-        try {
-            const res = await apiSignIn(values)
-            localStorage.setItem('user', JSON.stringify(res))
-            console.log('Signed in user:',res.role)
-            if (res.role === 'admin') {
-                router.push('/admin/courses')
-            } else {
-                router.push('/dashboard')
-            }
-        } catch (err: any) {
-            setMessage(err?.response?.data?.message || 'Invalid credentials')
+        const res = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+        })
+
+        if (res?.error) {
+            setMessage('Invalid credentials')
             setSubmitting(false)
+            return
         }
+
+        // 🔥 KEY FIX
+        const updatedSession = await refreshSession()
+
+        console.log('updatedSession', updatedSession)
+
+        await apiIssueBackendToken({
+            userId: updatedSession?.user?.id,
+        })
+
+        router.replace(
+            updatedSession?.user?.role === 'admin'
+                ? '/admin/courses'
+                : '/dashboard',
+        )
     }
+
     const handleOAuthSignIn = async ({ type }: OnOauthSignInPayload) => {
         if (type === 'google') {
-            await handleOauthSignIn('google')
-        }
-        if (type === 'github') {
-            await handleOauthSignIn('github')
+            await handleOauthSignIn(type, '/oauth-success')
         }
     }
 

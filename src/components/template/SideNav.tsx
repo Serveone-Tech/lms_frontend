@@ -5,7 +5,6 @@ import ScrollBar from '@/components/ui/ScrollBar'
 import Logo from '@/components/template/Logo'
 import VerticalMenuContent from '@/components/template/VerticalMenuContent'
 import useTheme from '@/utils/hooks/useTheme'
-import useCurrentSession from '@/utils/hooks/useCurrentSession'
 import useNavigation from '@/utils/hooks/useNavigation'
 import queryRoute from '@/utils/queryRoute'
 import appConfig from '@/configs/app.config'
@@ -20,6 +19,7 @@ import {
     LOGO_X_GUTTER,
 } from '@/constants/theme.constant'
 import type { Mode } from '@/@types/theme'
+import { useSessionContext } from '../auth/AuthProvider/SessionContext'
 
 type SideNavProps = {
     translationSetup?: boolean
@@ -58,7 +58,8 @@ const SideNav = ({
     const sideNavCollapse = useTheme((state) => state.layout.sideNavCollapse)
 
     const currentRouteKey = route?.key || ''
-    const { session } = useCurrentSession()
+    const { session } = useSessionContext()
+    console.log('SideNav session:', session)
 
     return (
         <div
@@ -95,7 +96,7 @@ const SideNav = ({
                         routeKey={currentRouteKey}
                         direction={direction}
                         translationSetup={translationSetup}
-                        userAuthority={session?.user?.authroity || []}
+                        userAuthority={session?.user?.authority || []}
                     />
                 </ScrollBar>
             </div>

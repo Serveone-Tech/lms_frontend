@@ -1,25 +1,47 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 import appConfig from '@/configs/app.config'
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl
 
-    // 👇 custom backend token (cookie)
-    const token = req.cookies.get('token')?.value
+    // ✅ PUBLIC / STATIC PATHS (NO AUTH)
+    if (
+        pathname.startsWith('/api/auth') ||
+        pathname.startsWith('/_next') ||
+        pathname.startsWith('/favicon.ico') ||
+        pathname.startsWith('/uploads') ||  
+        pathname.startsWith('/img') ||         
+        pathname.startsWith('/images') ||      
+        pathname.startsWith('/forgot-password') ||
+        pathname.startsWith('/reset-password') ||
+        pathname.startsWith('/otp-verification') ||
+        pathname.startsWith('/sign-in') ||
+        pathname.startsWith('/sign-up')
+    ) {
+        return NextResponse.next()
+    }
+
+    const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+    })
 
     const isAuthPage =
         pathname === appConfig.unAuthenticatedEntryPath ||
-        pathname.startsWith('/sign-up')
+        pathname.startsWith('/sign-up') ||
+        pathname.startsWith('/forgot-password') ||
+        pathname.startsWith('/reset-password')
 
-    // 🔒 Not logged in → protect all private pages
+    // 🔒 Protected routes
     if (!token && !isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.unAuthenticatedEntryPath, req.url)
         )
     }
 
-    // 🔁 Logged in but visiting login/signup → send to dashboard
+    // 🔁 Logged-in user visiting auth pages
     if (token && isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.authenticatedEntryPath, req.url)
@@ -30,5 +52,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!_next|api|favicon.ico).*)'],
+    matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

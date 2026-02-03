@@ -34,7 +34,7 @@ const OauthSignIn = ({ onOauthSignIn, setMessage }: OauthSignInProps) => {
             >
                 <div className="flex items-center justify-center gap-2">
                     <img
-                        className="h-[25px] w-[25px]"
+                        className="h-6.25 w-6.25"
                         src="/img/others/google.png"
                         alt="Google sign in"
                     />
@@ -48,7 +48,7 @@ const OauthSignIn = ({ onOauthSignIn, setMessage }: OauthSignInProps) => {
             >
                 <div className="flex items-center justify-center gap-2">
                     <img
-                        className="h-[25px] w-[25px]"
+                        className="h-6.25 w-6.25"
                         src="/img/others/github.png"
                         alt="Google sign in"
                     />

@@ -15,6 +15,7 @@ type SignUpFormSchema = {
     email: string
     confirmPassword: string
     role?: string
+    photo?: FileList
 }
 
 export type OnSignUpPayload = {
@@ -52,6 +53,7 @@ const validationSchema = z
         }),
 
         role: z.string().optional(),
+        photo: z.any().optional(),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Password not match',
@@ -69,17 +71,30 @@ const SignUpForm = (props: SignUpFormProps) => {
         control,
     } = useForm<SignUpFormSchema>({
         resolver: zodResolver(validationSchema),
+        defaultValues: {
+            userName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            photo: undefined,
+        },
     })
 
     const handleSignUp = async (values: SignUpFormSchema) => {
-        const payload = {
-            ...values,
-            role: 'user',
+        const formData = new FormData()
+        console.log('FORM VALUES 👉', values)
+        formData.append('userName', values.userName)
+        formData.append('email', values.email)
+        formData.append('password', values.password)
+        formData.append('role', 'user')
+
+        if (values.photo && values.photo.length > 0) {
+            formData.append('photo', values.photo[0])
         }
 
         if (onSignUp) {
             onSignUp({
-                values: payload,
+                values: formData as any,
                 setSubmitting,
                 setMessage,
             })
@@ -161,6 +176,23 @@ const SignUpForm = (props: SignUpFormProps) => {
                         )}
                     />
                 </FormItem>
+                <FormItem label="Profile Photo" invalid={Boolean(errors.photo)}>
+                    <Controller
+                        name="photo"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const files = e.target.files
+                                    field.onChange(files)
+                                }}
+                            />
+                        )}
+                    />
+                </FormItem>
+
                 <Button
                     block
                     loading={isSubmitting}

@@ -82,7 +82,7 @@ export const updateCoursePublishStatus = (
  */
 export async function getMyEnrolledCourses(): Promise<CourseWithMeta[]> {
     return ApiService.fetchDataWithAxios<CourseWithMeta[]>({
-        url: '/course/my-enrolled',
+        url: '/course/user/my-enrolled',
         method: 'get',
     })
 }

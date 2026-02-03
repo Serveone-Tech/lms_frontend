@@ -22,30 +22,42 @@ export default {
                 const user = await validateCredential(
                     credentials as SignInCredential,
                 )
+                console.log('Authorized user:', user)
                 if (!user) {
                     return null
                 }
 
                 return {
                     id: user.id,
-                    name: user.userName,
+                    userName: user.userName,
                     email: user.email,
-                    image: user.avatar,
+                    image: user.photoUrl,
+                    role: user.role,
                 }
             },
         }),
     ],
     callbacks: {
-        async session(payload) {
-            /** apply extra user attributes here, for example, we add 'authority' & 'id' in this section */
-            return {
-                ...payload.session,
-                user: {
-                    ...payload.session.user,
-                    id: payload.token.sub,
-                    authority: ['admin', 'user'],
-                },
+        async jwt({ token, user }) {
+            if (user) {
+                console.log('JWT callback user:', user)
+                console.log('JWT callback token before:', token)
+                token.userId = user.id as string
+                token.role = user.role as string
+                token.userName = user.userName
             }
+            return token
+        },
+
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.userId as string // 🔥 IMPORTANT
+                session.user.role = token.role as string
+                session.user.userName = token.userName
+                session.user.authority =
+                    token.role === 'admin' ? ['ADMIN'] : ['USER']
+            }
+            return session
         },
     },
 } satisfies NextAuthConfig

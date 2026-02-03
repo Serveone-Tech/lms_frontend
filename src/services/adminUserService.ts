@@ -2,7 +2,7 @@ import ApiService from '@/services/ApiService'
 
 export type AdminUser = {
     _id: string
-    name: string
+    userName: string
     email: string
     createdAt: string
     ordersCount: number

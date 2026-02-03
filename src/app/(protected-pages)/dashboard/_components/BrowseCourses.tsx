@@ -1,79 +1,40 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import ApiService from '@/services/ApiService'
-import CategoryFilter from './CategoryFilter'
-import BrowseCourseCard from './BrowseCourseCard'
-
-type Course = {
-    _id: string
-    title: string
-    category: string
-    price: number
-    hasFreePreview: boolean
-}
+import CourseCard from './CourseCard'
+import CategoryTabs from './CategoryTabs'
+import { getPublishedCourses } from '@/services/courseService'
 
 export default function BrowseCourses() {
-    const [courses, setCourses] = useState<Course[]>([])
-    const [category, setCategory] = useState<string>('all')
+    const [courses, setCourses] = useState<any[]>([])
+    const [category, setCategory] = useState('All')
 
     useEffect(() => {
-        ApiService.fetchDataWithAxios<Course[]>({
-            url: '/course/published',
-            method: 'get',
-            params: { category },
-        }).then(setCourses)
-    }, [category])
+        getPublishedCourses().then(setCourses)
+    }, [])
+
+    const filtered =
+        category === 'All'
+            ? courses
+            : courses.filter((c) => c.category === category)
 
     return (
-        <section className="mt-10">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-800">
-                    Browse Courses
-                </h2>
-            </div>
+        <div className="space-y-6">
+            <CategoryTabs
+                categories={['All', ...new Set(courses.map(c => c.category))]}
+                active={category}
+                onChange={setCategory}
+            />
 
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-3 mb-6">
-                {[
-                    'All',
-                    'Business',
-                    'Design',
-                    'IT',
-                    'Technical',
-                    'Visual Arts',
-                ].map((cat) => (
-                    <button
-                        key={cat}
-                        className="
-                        px-4 py-1.5 rounded-full text-xs font-medium
-                        border border-gray-300
-                        text-gray-600
-                        hover:border-[#B833EA]
-                        hover:text-[#B833EA]
-                        transition
-                    "
-                    >
-                        {cat}
-                    </button>
-                ))}
-            </div>
-
-            {/* Courses Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {courses.map((course) => (
-                    <BrowseCourseCard
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {filtered.map((course) => (
+                    <CourseCard
                         key={course._id}
-                        course={{
-                            _id: course._id,
-                            title: course.title,
-                            price: course.price,
-                            duration: course.duration || 'Self paced',
-                            slug: course.slug,
-                        }}
+                        course={course}
+                        variant="browse"
                     />
                 ))}
             </div>
-        </section>
+        </div>
     )
 }

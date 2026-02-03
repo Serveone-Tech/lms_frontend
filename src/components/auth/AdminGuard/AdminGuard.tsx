@@ -2,16 +2,28 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import useCurrentSession from '@/utils/hooks/useCurrentSession'
 
-export default function AdminGuard({ children }: { children: React.ReactNode }) {
+export default function AdminGuard({
+    children,
+}: {
+    children: React.ReactNode
+}) {
     const router = useRouter()
+    const { session } = useCurrentSession()
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user') || '{}')
-        if (user.role !== 'admin') {
+        // ⏳ session load होने का wait
+        if (!session) return
+
+        // ❌ logged in but not admin
+        if (session.user?.role !== 'admin') {
             router.replace('/dashboard')
         }
-    }, [router])
+    }, [session, router])
+
+    // ⏳ avoid flicker
+    if (!session) return null
 
     return <>{children}</>
 }

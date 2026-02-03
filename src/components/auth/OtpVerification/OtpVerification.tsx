@@ -1,3 +1,5 @@
+'use client'
+
 import Alert from '@/components/ui/Alert'
 import OtpVerificationForm from './OtpVerificationForm'
 import sleep from '@/utils/sleep'

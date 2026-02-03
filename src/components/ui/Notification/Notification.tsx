@@ -24,7 +24,7 @@ const Notification = (props: NotificationProps) => {
         children,
         closable = false,
         customIcon,
-        duration = 30000,
+        duration = 300000,
         onClose,
         style,
         ref,

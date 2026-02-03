@@ -1,44 +1,33 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import ApiService from '@/services/ApiService'
-import EnrolledCourseCard from './EnrolledCourseCard'
-
-type EnrolledCourse = {
-    _id: string
-    title: string
-    progress: number
-    enrolledAt: string
-    slug: string
-}
+import CourseCard from './CourseCard'
+import { getMyEnrolledCourses } from '@/services/courseService'
 
 export default function EnrolledCourses() {
-    const [courses, setCourses] = useState<EnrolledCourse[]>([])
+    const [courses, setCourses] = useState<any[]>([])
 
     useEffect(() => {
-        ApiService.fetchDataWithAxios<EnrolledCourse[]>({
-            url: '/user/enrolled-courses',
-            method: 'get',
-        }).then(setCourses)
+        getMyEnrolledCourses().then(setCourses)
     }, [])
 
-    return (
-        <div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Enrolled Courses
-            </h2>
+    if (courses.length === 0) {
+        return (
+            <div className="bg-white rounded-xl p-6 text-gray-500">
+                You haven’t enrolled in any course yet
+            </div>
+        )
+    }
 
-            {courses.length === 0 ? (
-                <div className="text-gray-500 text-sm">
-                    You haven’t purchased any courses yet.
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {courses.map((course) => (
-                        <EnrolledCourseCard key={course._id} course={course} />
-                    ))}
-                </div>
-            )}
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {courses.map((course) => (
+                <CourseCard
+                    key={course._id}
+                    course={course}
+                    variant="enrolled"
+                />
+            ))}
         </div>
     )
 }
