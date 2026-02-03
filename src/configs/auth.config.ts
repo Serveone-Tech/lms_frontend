@@ -22,7 +22,7 @@ export default {
                 const user = await validateCredential(
                     credentials as SignInCredential,
                 )
-                console.log('Authorized user:', user)
+
                 if (!user) {
                     return null
                 }
@@ -40,8 +40,6 @@ export default {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                console.log('JWT callback user:', user)
-                console.log('JWT callback token before:', token)
                 token.userId = user.id as string
                 token.role = user.role as string
                 token.userName = user.userName

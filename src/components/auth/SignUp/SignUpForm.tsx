@@ -82,7 +82,6 @@ const SignUpForm = (props: SignUpFormProps) => {
 
     const handleSignUp = async (values: SignUpFormSchema) => {
         const formData = new FormData()
-        console.log('FORM VALUES 👉', values)
         formData.append('userName', values.userName)
         formData.append('email', values.email)
         formData.append('password', values.password)

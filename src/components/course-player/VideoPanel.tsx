@@ -12,7 +12,6 @@ type Props = {
 
 export default function VideoPanel({ lecture, onCompleted, courseId }: Props) {
     const videoRef = useRef<HTMLVideoElement>(null)
-    console.log('Rendering VideoPanel for lecture:', lecture)
     // 🔁 Resume from last watched time (optional future)
     useEffect(() => {
         if (videoRef.current && lecture?.lastWatchedTime) {

@@ -59,7 +59,6 @@ const SideNav = ({
 
     const currentRouteKey = route?.key || ''
     const { session } = useSessionContext()
-    console.log('SideNav session:', session)
 
     return (
         <div

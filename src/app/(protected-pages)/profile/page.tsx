@@ -15,7 +15,6 @@ const ProfilePage = () => {
         }
         fetchUser()
     }, [])
-console.log("user18",user)
     return (
         <div className="flex justify-center">
             <div className="w-full max-w-2xl">
