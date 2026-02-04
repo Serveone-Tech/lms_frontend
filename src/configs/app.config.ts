@@ -7,7 +7,8 @@ export type AppConfig = {
 }
 
 const appConfig: AppConfig = {
-    apiPrefix: 'http://localhost:8000/api',
+    // apiPrefix: 'http://localhost:8000/api',
+    apiPrefix: 'https://lms-backend.onrender.com/api',
     authenticatedEntryPath: '/dashboard',
     unAuthenticatedEntryPath: '/sign-in',
     locale: 'en',
