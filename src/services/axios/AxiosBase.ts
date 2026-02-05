@@ -7,7 +7,7 @@ import type { AxiosError, InternalAxiosRequestConfig } from 'axios'
 const AxiosBase = axios.create({
     baseURL: appConfig.apiPrefix, // e.g. http://localhost:5000/api
     timeout: 60000,
-    withCredentials: true, // ✅ VERY IMPORTANT (cookie send karega)
+    withCredentials: true,
 })
 
 AxiosBase.interceptors.request.use(
