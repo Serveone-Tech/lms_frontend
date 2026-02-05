@@ -26,38 +26,44 @@ const SignInClient = () => {
         setSubmitting,
         setMessage,
     }: OnSignInPayload) => {
-        setSubmitting(true)
+        try {
+            setSubmitting(true)
 
-        const res = await signIn('credentials', {
-            email: values.email,
-            password: values.password,
-            redirect: false,
-        })
+            const res = await signIn('credentials', {
+                email: values.email,
+                password: values.password,
+                redirect: false,
+            })
 
-        if (res?.error) {
-            setMessage('Invalid credentials')
+            if (res?.error) {
+                setMessage('Invalid credentials')
+                setSubmitting(false)
+                return
+            }
+
+            // ⏳ wait a bit for session to sync
+            await new Promise((r) => setTimeout(r, 300))
+
+            const updatedSession = await refreshSession()
+
+            if (!updatedSession?.user?.id) {
+                throw new Error('Session not ready')
+            }
+
+            await apiIssueBackendToken({
+                userId: updatedSession.user.id,
+            })
+
+            // ✅ HARD redirect (more reliable than router.replace)
+            window.location.href =
+                updatedSession.user.role === 'admin'
+                    ? '/admin/courses'
+                    : '/dashboard'
+        } catch (err) {
+            console.error(err)
+            setMessage('Login failed, please try again')
             setSubmitting(false)
-            return
         }
-
-        // ✅ now refreshSession returns session
-        const updatedSession = await refreshSession()
-
-        if (!updatedSession?.user?.id) {
-            setMessage('Session not initialized. Please try again.')
-            setSubmitting(false)
-            return
-        }
-
-        await apiIssueBackendToken({
-            userId: updatedSession.user.id, // ✅ now string
-        })
-
-        router.replace(
-            updatedSession.user.role === 'admin'
-                ? '/admin/courses'
-                : '/dashboard',
-        )
     }
 
     const handleOAuthSignIn = async ({ type }: OnOauthSignInPayload) => {
