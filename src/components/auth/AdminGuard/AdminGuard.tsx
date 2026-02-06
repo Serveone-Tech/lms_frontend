@@ -11,9 +11,8 @@ export default function AdminGuard({
 }) {
     const router = useRouter()
     const { session } = useCurrentSession()
-
     useEffect(() => {
-        // ⏳ session load होने का wait
+
         if (!session) return
 
         // ❌ logged in but not admin
