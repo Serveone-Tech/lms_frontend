@@ -6,14 +6,14 @@ import appConfig from '@/configs/app.config'
 export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl
 
-    // ✅ PUBLIC / STATIC PATHS (NO AUTH)
+    // ✅ PUBLIC / STATIC PATHS
     if (
         pathname.startsWith('/api/auth') ||
         pathname.startsWith('/_next') ||
         pathname.startsWith('/favicon.ico') ||
-        pathname.startsWith('/uploads') ||  
-        pathname.startsWith('/img') ||         
-        pathname.startsWith('/images') ||      
+        pathname.startsWith('/uploads') ||
+        pathname.startsWith('/img') ||
+        pathname.startsWith('/images') ||
         pathname.startsWith('/forgot-password') ||
         pathname.startsWith('/reset-password') ||
         pathname.startsWith('/otp-verification') ||
@@ -23,10 +23,14 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next()
     }
 
-    const token = await getToken({
+    // 🔐 NextAuth token
+    const nextAuthToken = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
     })
+
+    // 🔐 Backend JWT cookie (custom auth)
+    const backendToken = req.cookies.get('token')?.value
 
     const isAuthPage =
         pathname === appConfig.unAuthenticatedEntryPath ||
@@ -34,15 +38,16 @@ export async function middleware(req: NextRequest) {
         pathname.startsWith('/forgot-password') ||
         pathname.startsWith('/reset-password')
 
-    // 🔒 Protected routes
-    if (!token && !isAuthPage) {
+    // 🔒 PROTECTED ROUTES
+    // ❗ allow if ANY auth token exists
+    if (!nextAuthToken && !backendToken && !isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.unAuthenticatedEntryPath, req.url)
         )
     }
 
-    // 🔁 Logged-in user visiting auth pages
-    if (token && isAuthPage) {
+    // 🔁 AUTH PAGES (user already logged in)
+    if ((nextAuthToken || backendToken) && isAuthPage) {
         return NextResponse.redirect(
             new URL(appConfig.authenticatedEntryPath, req.url)
         )
