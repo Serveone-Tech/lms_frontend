@@ -18,6 +18,8 @@ export default function CoursePaymentPage() {
     const router = useRouter()
 
     const [course, setCourse] = useState<Course | null>(null)
+    const [finalAmount, setFinalAmount] = useState(course?.price)
+    const [couponId, setCouponId] = useState<string | undefined>()
 
     useEffect(() => {
         ApiService.fetchDataWithAxios<Course>({
@@ -25,7 +27,7 @@ export default function CoursePaymentPage() {
             method: 'get',
         }).then(setCourse)
     }, [])
-
+console.log('course30', course)
     if (!course) return null
 
     return (
@@ -37,11 +39,20 @@ export default function CoursePaymentPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="md:col-span-2 space-y-6">
                     <CourseSummaryCard course={course} />
-                    <CouponCard />
+                    <CouponCard
+                        courseId={course._id}
+                        originalPrice={course.price}
+                        onApplied={({ finalAmount, couponId }) => {
+                            setFinalAmount(finalAmount)
+                            setCouponId(couponId)
+                        }}
+                    />
                 </div>
 
                 <PaymentActions
                     course={course}
+                    finalAmount={finalAmount}
+                    couponId={couponId}
                     onSkip={() => router.push('/dashboard')}
                     onSuccess={() => router.push(`/course/${courseId}/lecture`)}
                 />

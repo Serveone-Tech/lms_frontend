@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import CourseCard from './CourseCard'
-import CategoryTabs from './CategoryTabs'
+// import CategoryTabs from './CategoryTabs'
 import { getPublishedCourses } from '@/services/courseService'
 
 export default function BrowseCourses() {
@@ -20,11 +20,11 @@ export default function BrowseCourses() {
 
     return (
         <div className="space-y-6">
-            <CategoryTabs
+            {/* <CategoryTabs
                 categories={['All', ...new Set(courses.map(c => c.category))]}
                 active={category}
                 onChange={setCategory}
-            />
+            /> */}
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {filtered.map((course) => (

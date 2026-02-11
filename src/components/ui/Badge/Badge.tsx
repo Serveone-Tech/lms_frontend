@@ -22,8 +22,7 @@ const Badge = (props: BadgeProps) => {
         ...rest
     } = props
 
-    const badgeBaseClass =
-        'rounded-full text-xs font-semibold bg-error text-white'
+    const badgeBaseClass = 'rounded-full text-xs font-semibold text-white'
 
     const dot = typeof content !== 'number' && typeof content !== 'string'
 

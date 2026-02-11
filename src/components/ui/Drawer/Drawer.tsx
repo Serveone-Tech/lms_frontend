@@ -50,25 +50,15 @@ const Drawer = (props: DrawerProps) => {
 
     const renderCloseButton = <CloseButton onClick={onCloseClick} />
 
-    const getStyle = (): {
-        dimensionClass?: string
-        contentStyle?: {
-            width?: string | number
-            height?: string | number
-        }
-        motionStyle: {
-            [x: string]: string
-        }
-    } => {
+    const getStyle = () => {
         if (placement === 'left' || placement === 'right') {
             return {
                 dimensionClass: 'vertical',
                 contentStyle: { width },
-                motionStyle: {
-                    [placement]: `-${width}${
-                        typeof width === 'number' && 'px'
-                    }`,
-                },
+                offset:
+                    typeof width === 'number'
+                        ? width
+                        : parseInt(width as string, 10) || 0,
             }
         }
 
@@ -76,23 +66,30 @@ const Drawer = (props: DrawerProps) => {
             return {
                 dimensionClass: 'horizontal',
                 contentStyle: { height },
-                motionStyle: {
-                    [placement]: `-${height}${
-                        typeof height === 'number' && 'px'
-                    }`,
-                },
+                offset:
+                    typeof height === 'number'
+                        ? height
+                        : parseInt(height as string, 10) || 0,
             }
         }
 
         return {
-            motionStyle: {},
+            offset: 0,
         }
     }
 
-    const { dimensionClass, contentStyle, motionStyle } = getStyle()
+    const { dimensionClass, contentStyle, offset } = getStyle()
 
     return (
         <Modal
+            style={{
+                content: {
+                    inset: 0,
+                    padding: 0,
+                    border: 'none',
+                    background: 'transparent',
+                },
+            }}
             className={{
                 base: classNames('drawer', className as string),
                 afterOpen: 'drawer-after-open',
@@ -118,14 +115,17 @@ const Drawer = (props: DrawerProps) => {
             closeTimeoutMS={closeTimeoutMS}
             {...rest}
         >
-            <motion.div
+            <div
                 className={classNames('drawer-content', dimensionClass)}
-                style={contentStyle}
-                initial={motionStyle}
-                animate={{
-                    [placement as 'top' | 'right' | 'bottom' | 'left']: isOpen
-                        ? 0
-                        : motionStyle[placement],
+                style={{
+                    ...contentStyle,
+                    position: 'fixed',
+                    top: 0,
+                    right: placement === 'right' ? 0 : undefined,
+                    left: placement === 'left' ? 0 : undefined,
+                    height: '100vh',
+                    zIndex: 9999,
+                    background: '#fff',
                 }}
             >
                 {title || closable ? (
@@ -146,7 +146,7 @@ const Drawer = (props: DrawerProps) => {
                         {footer}
                     </div>
                 )}
-            </motion.div>
+            </div>
         </Modal>
     )
 }

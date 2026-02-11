@@ -1,6 +1,14 @@
 import ApiService from '@/services/ApiService'
 
-export const createOrder = async (courseId: string) => {
+/**
+ * CREATE ORDER
+ * couponId & finalAmount OPTIONAL हैं
+ */
+export const createOrder = async (payload: {
+    courseId: string
+    couponId?: string
+    finalAmount?: number
+}) => {
     return ApiService.fetchDataWithAxios<{
         id: string
         amount: number
@@ -8,12 +16,17 @@ export const createOrder = async (courseId: string) => {
     }>({
         url: '/payment/create-order',
         method: 'post',
-        data: { courseId },
+        data: payload,
     })
 }
 
+/**
+ * VERIFY PAYMENT
+ */
 export const verifyPayment = async (data: {
     razorpay_order_id: string
+    razorpay_payment_id: string
+    razorpay_signature: string
     courseId: string
 }) => {
     return ApiService.fetchDataWithAxios({
@@ -22,4 +35,3 @@ export const verifyPayment = async (data: {
         data,
     })
 }
-
