@@ -55,10 +55,6 @@ export default function AdminCouponsPage() {
                 title="Coupons"
                 action={
                     <Button
-                        className="
-                    mt-4 rounded-lg px-4 py-2 text-sm
-                    bg-[#006c74] text-white hover:opacity-90
-                "
                         variant="solid"
                         onClick={() => {
                             setEditCoupon(null)
