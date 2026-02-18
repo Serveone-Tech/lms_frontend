@@ -1,4 +1,4 @@
-import SignUpClient from './_components/SignUpClient'
+import SignUpClient from "./_components/SignUpClient"
 
 const Page = () => {
     return <SignUpClient />

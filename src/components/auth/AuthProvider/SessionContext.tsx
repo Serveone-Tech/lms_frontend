@@ -12,7 +12,6 @@ type SessionContextType = {
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined)
-
 export const SessionProvider = ({
     children,
     initialSession,
@@ -34,7 +33,6 @@ export const SessionProvider = ({
     const clearSession = () => {
         setSession(null)
     }
-
     return (
         <SessionContext.Provider
             value={{ session, loading, refreshSession, clearSession }}

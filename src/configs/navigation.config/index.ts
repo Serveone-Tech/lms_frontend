@@ -42,6 +42,16 @@ const navigationConfig: NavigationTree[] = [
         authority: ['ADMIN'],
         subMenu: [],
     },
+    {
+        key: 'coupons',
+        path: '/admin/coupons',
+        title: 'Coupons',
+        translateKey: 'nav.coupons',
+        icon: 'coupons',
+        type: NAV_ITEM_TYPE_ITEM,
+        authority: ['ADMIN'],
+        subMenu: [],
+    },
 ]
 
 export default navigationConfig

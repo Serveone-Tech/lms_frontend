@@ -12,27 +12,41 @@ type Props = {
     }
     onSkip: () => void
     onSuccess: () => void
+
+    // 🔥 FUTURE READY (optional)
+    couponId?: string
+    finalAmount?: number
 }
 
 declare global {
     interface Window {
-        Razorpay: new (options: Record<string, unknown>) => {
+        Razorpay: new (options: any) => {
             open: () => void
         }
     }
 }
 
-export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
+export default function PaymentActions({
+    course,
+    onSkip,
+    onSuccess,
+    couponId,
+    finalAmount,
+}: Props) {
     const router = useRouter()
 
     const handlePay = async () => {
         try {
-            // 1️⃣ Create order (backend already working)
-            const order = await createOrder(course._id)
+            /* 1️⃣ CREATE ORDER */
+            const order = await createOrder({
+                courseId: course._id,
+                couponId,
+                finalAmount,
+            })
 
-            // 2️⃣ Open Razorpay Checkout
+            /* 2️⃣ OPEN RAZORPAY CHECKOUT */
             const rzp = new window.Razorpay({
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // ✅ FIXED
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
                 amount: order.amount,
                 currency: order.currency,
                 order_id: order.id,
@@ -41,7 +55,7 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
                 description: 'Course Purchase',
 
                 handler: async (response: any) => {
-                    // 3️⃣ Verify payment
+                    /* 3️⃣ VERIFY PAYMENT */
                     await verifyPayment({
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
@@ -55,6 +69,9 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
                         </Notification>,
                     )
 
+                    onSuccess?.()
+
+                    // 🔁 Redirect to course player
                     router.replace(`/course/${course._id}`)
                 },
 
@@ -65,6 +82,7 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
 
             rzp.open()
         } catch (error) {
+            console.error(error)
             toast.push(
                 <Notification type="danger" title="Error">
                     Payment failed
@@ -80,7 +98,7 @@ export default function PaymentActions({ course, onSkip, onSuccess }: Props) {
                 className="w-full rounded-xl px-4 py-3 text-sm font-medium
                 bg-[#006c74] text-white hover:opacity-90"
             >
-                Pay ₹{course.price}
+                Pay ₹{finalAmount ?? course.price}
             </button>
 
             <button
