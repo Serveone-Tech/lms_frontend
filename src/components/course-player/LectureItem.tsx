@@ -1,5 +1,8 @@
 'use client'
 
+import { Badge } from '@/components/ui'
+import { HiCheckCircle, HiLockClosed, HiPlay } from 'react-icons/hi'
+
 type Props = {
     lecture: any
     isActive: boolean
@@ -19,40 +22,62 @@ export default function LectureItem({
         <div
             onClick={!isLocked ? onClick : undefined}
             className={`
-                flex justify-between items-center px-4 py-2 text-sm
-                transition
+                flex items-center justify-between px-4 py-3 text-sm
+                transition-all duration-200
                 ${
                     isLocked
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : 'cursor-pointer hover:bg-[#e6f3f4]'
+                        ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
+                        : 'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-750'
                 }
                 ${
                     isActive
-                        ? 'bg-[#d6eff1] text-[#006c74] font-medium'
+                        ? 'bg-opacity-10 dark:bg-primary dark:bg-opacity-20 border-l-4 border-primary'
                         : ''
                 }
             `}
         >
             {/* LEFT */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
                 {/* STATUS ICON */}
-                {isCompleted ? (
-                    <span className="text-green-600">✔</span>
-                ) : isLocked ? (
-                    <span>🔒</span>
-                ) : (
-                    <span className="text-[#006c74]">▶</span>
-                )}
+                <div className="shrink-0">
+                    {isCompleted ? (
+                        <HiCheckCircle className="w-5 h-5 text-primary" />
+                    ) : isLocked ? (
+                        <HiLockClosed className="w-5 h-5 text-gray-400" />
+                    ) : isActive ? (
+                        <HiPlay className="w-5 h-5 text-primary" />
+                    ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600" />
+                    )}
+                </div>
 
-                <span>{lecture.title}</span>
+                {/* TITLE */}
+                <span
+                    className={`truncate ${
+                        isActive
+                            ? 'font-medium text-primary'
+                            : 'text-gray-700 dark:text-gray-300'
+                    }`}
+                >
+                    {lecture.title}
+                </span>
             </div>
 
             {/* RIGHT */}
-            {!isLocked && lecture.isFree && (
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#e0f2f3] text-[#006c74]">
-                    Free
-                </span>
-            )}
+            <div className="flex items-center gap-2 shrink-0 ml-2">
+                {!isLocked && lecture.isFree && (
+                    <Badge
+                        content="Free"
+                        className="bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                        innerClass="!bg-transparent !text-inherit"
+                    />
+                )}
+                {lecture.duration && (
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {lecture.duration}
+                    </span>
+                )}
+            </div>
         </div>
     )
 }
