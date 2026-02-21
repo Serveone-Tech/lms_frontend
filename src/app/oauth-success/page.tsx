@@ -31,7 +31,7 @@ const OAuthSuccessPage = () => {
                     role: 'user',
                 },
                 {
-                    withCredentials: true, // 🔴 MUST for cookie
+                    withCredentials: true,
                 },
             )
 
