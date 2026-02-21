@@ -16,7 +16,7 @@ const Side = ({ children, ...rest }: SideProps) => {
                         : null}
                 </div>
             </div>
-            <div className="py-6 px-10 lg:flex flex-col flex-1 justify-between rounded-3xl items-end relative max-w-130 2xl:max-w-180">
+            <div className="hidden lg:flex py-6 px-10 flex-col flex-1 justify-between rounded-3xl items-end relative max-w-130 2xl:max-w-180">
                 <img
                     src="/img/others/auth-side-bg.png"
                     className="absolute h-full w-full top-0 left-0 rounded-3xl"
