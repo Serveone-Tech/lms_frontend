@@ -41,7 +41,7 @@ const OauthSignIn = ({ onOauthSignIn, setMessage }: OauthSignInProps) => {
                     <span>Google</span>
                 </div>
             </Button>
-            <Button
+            {/* <Button
                 className="flex-1"
                 type="button"
                 onClick={handleGithubSignIn}
@@ -54,7 +54,7 @@ const OauthSignIn = ({ onOauthSignIn, setMessage }: OauthSignInProps) => {
                     />
                     <span>Github</span>
                 </div>
-            </Button>
+            </Button> */}
         </div>
     )
 }
