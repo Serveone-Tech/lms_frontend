@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import CourseCard from './CourseCard'
-// import CategoryTabs from './CategoryTabs'
+import Image from 'next/image'
+import comingSoonImg from '@/assets/images/coming-soon.png'
 import { getPublishedCourses } from '@/services/courseService'
 
 export default function BrowseCourses() {
@@ -20,12 +21,6 @@ export default function BrowseCourses() {
 
     return (
         <div className="space-y-6">
-            {/* <CategoryTabs
-                categories={['All', ...new Set(courses.map(c => c.category))]}
-                active={category}
-                onChange={setCategory}
-            /> */}
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {filtered.map((course) => (
                     <CourseCard
@@ -34,6 +29,19 @@ export default function BrowseCourses() {
                         variant="browse"
                     />
                 ))}
+
+                {/* Coming Soon Card */}
+                <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <div className="relative w-full h-full min-h-50">
+                        <Image
+                            src={comingSoonImg}
+                            alt="Coming Soon"
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </div>
+
             </div>
         </div>
     )
