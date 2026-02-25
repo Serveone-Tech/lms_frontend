@@ -1,7 +1,7 @@
-import BrowseCourses from "./_components/BrowseCourses";
-import EnrolledCourses from "./_components/EnrolledCourses";
-import PromoBanners from "./_components/PromoBanners";
-
+import BrowseCourses from './_components/BrowseCourses'
+import ComingSoonCard from './_components/ComingSoonCard'
+import EnrolledCourses from './_components/EnrolledCourses'
+import PromoBanners from './_components/PromoBanners'
 
 export default function DashboardPage() {
     return (
@@ -9,16 +9,12 @@ export default function DashboardPage() {
             <PromoBanners />
 
             <section>
-                <h2 className="text-xl font-semibold mb-4">
-                    Enrolled Courses
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Enrolled Courses</h2>
                 <EnrolledCourses />
             </section>
 
             <section>
-                <h2 className="text-xl font-semibold mb-4">
-                    Browse Courses
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Browse Courses</h2>
                 <BrowseCourses />
             </section>
         </div>

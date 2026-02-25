@@ -27,7 +27,6 @@ export default function CoursePaymentPage() {
             method: 'get',
         }).then(setCourse)
     }, [])
-console.log('course30', course)
     if (!course) return null
 
     return (

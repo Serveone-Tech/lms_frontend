@@ -18,7 +18,6 @@ export default function CourseCard({
     variant: 'enrolled' | 'browse'
 }) {
     const router = useRouter()
-    console.log('course21', course)
     return (
         <div className="bg-white border rounded-2xl p-5 hover:shadow-md transition">
             <h3 className="text-lg font-semibold text-gray-800">
