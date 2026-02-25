@@ -26,7 +26,6 @@ const SignIn = ({
     const [message, setMessage] = useTimeOutMessage()
 
     const mode = useTheme((state) => state.mode)
-console.log('mode', mode)
     return (
         <>
             <div className="mb-8">
